@@ -1,4 +1,4 @@
-###Split Wise Application : Steps to build the docker image and start working on it
+### Split Wise Application : Steps to build the docker image and start working on it
 
 #### Prerequisite
 - Docker
@@ -43,11 +43,11 @@ curl --location --request POST 'http://localhost:8080/splitwise/user/create' \
 "email": "aman.singla0@gmail.com"
 }'
 
-####Response :
+#### Response :
 {"id":1,"name":"Aman Kumar","phoneNumber":"9874561789","email":"aman.singla0@gmail.com","creationDate":"2022-01-30","paidBySettlement":null,"paidToSettlement":null,"transactions":null}
 
 
-####Create Another User :
+#### Create Another User :
 curl --location --request POST 'http://localhost:8080/splitwise/user/create' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -56,10 +56,10 @@ curl --location --request POST 'http://localhost:8080/splitwise/user/create' \
 "email": "raman.kumar@gmail.com"
 }'
 
-####Response :
+#### Response :
 {"id":2,"name":"Raman Kumar","phoneNumber":"9874561789","email":"raman.kumar@gmail.com","creationDate":"2022-01-30","paidBySettlement":null,"paidToSettlement":null,"transactions":null}
 
-####Create Group and assign these users in group:
+#### Create Group and assign these users in group:
 curl --location --request POST 'http://localhost:8080/splitwise/group/create/1' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -67,20 +67,20 @@ curl --location --request POST 'http://localhost:8080/splitwise/group/create/1' 
 "type":"Trip"
 }'
 
-####Response :
+#### Response :
 {"id":1,"name":"Family Group","type":"Trip","creationDate":"2022-01-30","users":[{"id":1,"name":"Aman Kumar","phoneNumber":"9874561789","email":"aman.singla0@gmail.com","creationDate":"2022-01-30","paidBySettlement":[],"paidToSettlement":[],"transactions":[]}],"settlements":null,"transactions":null}
 
-####Add Member into Group :
+#### Add Member into Group :
 curl --location --request POST 'http://localhost:8080/splitwise/group/addMember/1' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "userIds":[2]
 }'
 
-####Response :
+#### Response :
 {"id":1,"name":"Family Group","type":"Trip","creationDate":"2022-01-30","users":[{"id":1,"name":"Aman Kumar","phoneNumber":"9874561789","email":"aman.singla0@gmail.com","creationDate":"2022-01-30","paidBySettlement":[],"paidToSettlement":[],"transactions":[]},{"id":2,"name":"Raman Kumar","phoneNumber":"9874561789","email":"raman.kumar@gmail.com","creationDate":"2022-01-30","paidBySettlement":[],"paidToSettlement":[],"transactions":[]}],"settlements":[],"transactions":[]}
 
-####Add Expense :
+#### Add Expense :
 curl --location --request POST 'http://localhost:8080/splitwise/expense/add' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -97,7 +97,7 @@ curl --location --request POST 'http://localhost:8080/splitwise/expense/add' \
 
 }'
 
-####Show Expense :
+#### Show Expense :
 curl --location --request POST 'http://localhost:8080/splitwise/expense/getTotalExpense' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -106,11 +106,11 @@ curl --location --request POST 'http://localhost:8080/splitwise/expense/getTotal
 
 }'
 
-####Response :
+#### Response :
 {"userId":1,"groupId":1,"totalPaidAmount":1000.0,"totalExpense":{"2":700.0}}
 
 
 
->Note -> Github Link : 
+>Note -> Github Link : https://github.com/aman-singla30/SplitWise.git
 
 
