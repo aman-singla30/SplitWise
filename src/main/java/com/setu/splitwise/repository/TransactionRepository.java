@@ -14,8 +14,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
                 "new com.setu.splitwise.dto.dbResponse.UserExpenseResponse(t.paidBy.id as userId, SUM(t.amount) as amount) " +
                 "FROM " +
                 "Transaction t "+
-                " where t.paidInGroup.id = :groupId " +
+                " where t.paidInGroup.id = :groupId and t.paidBy.id = :userId " +
                 "GROUP BY " +
                 "    t.paidBy.id ")
-        UserExpenseResponse getTotalExpenseAmountForUser(@Param("groupId") Long groupId);
+        UserExpenseResponse getTotalExpenseAmountForUser(@Param("groupId") Long groupId, @Param("userId") Long userId);
 }

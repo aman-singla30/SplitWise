@@ -105,7 +105,7 @@ public class ExpenseServiceTest {
         Mockito.when(groupService.getGroup(Mockito.any())).thenReturn(group);
 
         Mockito.when(settlementRepository.getTotalExpenseAmountForUser(Mockito.any(), Mockito.any())).thenReturn(Collections.singletonList(settlementResponse));
-        Mockito.when(transactionRepository.getTotalExpenseAmountForUser(Mockito.any())).thenReturn(expenseResponse);
+        Mockito.when(transactionRepository.getTotalExpenseAmountForUser(Mockito.any(), Mockito.any())).thenReturn(expenseResponse);
         Assertions.assertNotNull(expenseService.calculateTotalExpense(totalExpenseRequestDto));
     }
 

@@ -17,6 +17,7 @@ import com.setu.splitwise.service.IUserService;
 import com.setu.splitwise.strategy.ExpenseStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -79,6 +81,21 @@ public class ExpenseService implements IExpenseService {
                 .splits(expenseRequestDto.getSplits())
                 .transactionType(expenseRequestDto.getExpenseType())
                 .build();
+        //Get Existing expenses from user
+        List<SettlementResponse> expenseResponses = settlementRepository
+                .getTotalExpenseAmountForUser(paidInGroup.getId(),paidByUser.getId());
+        Map<Long, Double> paidToHistory = new HashMap<>();
+        if(!CollectionUtils.isEmpty(expenseResponses)) {
+            paidToHistory = expenseResponses.stream().collect(Collectors.
+                    toMap(SettlementResponse::getPaidTo, SettlementResponse::getAmount));
+        }
+
+        for (Split split : expenseStrategy.getSplits()) {
+            if(paidToHistory.containsKey(split.getUser().getId())) {
+                split.setAmount(split.getAmount() + paidToHistory.get(split.getUser().getId()));
+            }
+        }
+        //
         expenseStrategy.getSplits().forEach(split -> {
             Settlement settlement = Settlement.builder()
                     .group(paidInGroup).paidBy(paidByUser).paidTo(split.getUser()).amount(split.getAmount()).build();
@@ -100,7 +117,7 @@ public class ExpenseService implements IExpenseService {
         Group group = groupService.getGroup(totalExpenseRequestDto.getGroupId());
         //Get Total expense amount by user in required group
         UserExpenseResponse userExpenseDBResponses = transactionRepository
-                .getTotalExpenseAmountForUser(group.getId());
+                .getTotalExpenseAmountForUser(group.getId(), user.getId());
         List<SettlementResponse> expenseResponses = settlementRepository
                 .getTotalExpenseAmountForUser(group.getId(),user.getId());
 

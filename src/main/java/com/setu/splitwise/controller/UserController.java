@@ -56,7 +56,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 500, message = "Internal server error")})
     @ApiOperation(value = "Update User", notes = "Update User")
-    @PutMapping("/update/{userId}")
+    @PostMapping("/update/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "userId") Long userId,
                                            @RequestBody UserDto userDto) {
         User user = User.builder().name(userDto.getName())
