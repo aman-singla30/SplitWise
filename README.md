@@ -19,6 +19,7 @@ Installation using Docker :
 Open command Line Editor
 - git clone
 - cd splitwise
+- mvn clean install
 
 ##### Build Docker image
 docker build -t="splitwise" .
