@@ -1,4 +1,4 @@
-###Split Wise Application : Steps to build the docker image and start working on it
+### Split Wise Application : Steps to build the docker image and start working on it
 
 #### Prerequisite
 - Docker
